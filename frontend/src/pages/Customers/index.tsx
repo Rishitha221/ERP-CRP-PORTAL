@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Plus, Edit, Trash2, X, MoreVertical } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, Plus, Edit, Trash2, X } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'sonner';
 import './Customers.css';
 
 const Customers = () => {
-  const [customers, setCustomers] = useState([]);
+  const [customers, setCustomers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);

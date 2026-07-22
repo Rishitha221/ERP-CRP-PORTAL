@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Plus, Edit, Trash2, X, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Plus, Edit, Trash2, X, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'sonner';
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isStockModalOpen, setIsStockModalOpen] = useState(false);

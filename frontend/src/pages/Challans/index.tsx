@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, X, Trash2, Printer } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Plus, Trash2, Printer } from 'lucide-react';
 import api from '../../services/api';
 import { toast } from 'sonner';
 
 const Challans = () => {
-  const [challans, setChallans] = useState([]);
+  const [challans, setChallans] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   
   // Create Challan State
-  const [customers, setCustomers] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [customers, setCustomers] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState('');
   const [items, setItems] = useState<any[]>([]);
   const [selectedProduct, setSelectedProduct] = useState('');
