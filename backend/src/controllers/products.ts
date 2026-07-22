@@ -4,14 +4,17 @@ import prisma from '../utils/prisma';
 export const getProducts = async (req: Request, res: Response): Promise<void> => {
   try {
     const { search, page = '1', limit = '10' } = req.query;
-    const pageNum = parseInt(page as string);
-    const limitNum = parseInt(limit as string);
+    const pageStr = typeof page === 'string' ? page : '1';
+    const limitStr = typeof limit === 'string' ? limit : '10';
+    const pageNum = parseInt(pageStr);
+    const limitNum = parseInt(limitStr);
     const skip = (pageNum - 1) * limitNum;
+    const searchStr = typeof search === 'string' ? search : undefined;
 
-    const where = search ? {
+    const where = searchStr ? {
       OR: [
-        { name: { contains: search as string } },
-        { sku: { contains: search as string } }
+        { name: { contains: searchStr } },
+        { sku: { contains: searchStr } }
       ]
     } : {};
 

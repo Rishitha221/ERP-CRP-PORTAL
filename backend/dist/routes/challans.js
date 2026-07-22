@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const challans_1 = require("../controllers/challans");
+const auth_1 = require("../middlewares/auth");
+const router = (0, express_1.Router)();
+router.use(auth_1.authenticate);
+router.get('/', (0, auth_1.authorize)(['ADMIN', 'SALES', 'WAREHOUSE', 'ACCOUNTS']), challans_1.getChallans);
+router.get('/:id', (0, auth_1.authorize)(['ADMIN', 'SALES', 'WAREHOUSE', 'ACCOUNTS']), challans_1.getChallanById);
+router.post('/', (0, auth_1.authorize)(['ADMIN', 'SALES']), challans_1.createChallan);
+router.put('/:id/confirm', (0, auth_1.authorize)(['ADMIN', 'SALES', 'WAREHOUSE']), challans_1.confirmChallan);
+exports.default = router;

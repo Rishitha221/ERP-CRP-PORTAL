@@ -5,11 +5,14 @@ import { AuthRequest } from '../middlewares/auth';
 export const getChallans = async (req: Request, res: Response): Promise<void> => {
   try {
     const { status, page = '1', limit = '10' } = req.query;
-    const pageNum = parseInt(page as string);
-    const limitNum = parseInt(limit as string);
+    const pageStr = typeof page === 'string' ? page : '1';
+    const limitStr = typeof limit === 'string' ? limit : '10';
+    const pageNum = parseInt(pageStr);
+    const limitNum = parseInt(limitStr);
     const skip = (pageNum - 1) * limitNum;
 
-    const where: any = status ? { status: status as string } : {};
+    const statusStr = typeof status === 'string' ? status : undefined;
+    const where: any = statusStr ? { status: statusStr } : {};
 
     const [challans, total] = await Promise.all([
       prisma.salesChallan.findMany({
