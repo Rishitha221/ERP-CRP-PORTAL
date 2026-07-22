@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  SALES
+  WAREHOUSE
+  ACCOUNTS
+}
+
+enum CustomerType {
+  RETAIL
+  WHOLESALE
+  DISTRIBUTOR
+}
+
+enum Status {
+  LEAD
+  ACTIVE
+  INACTIVE
+}
+
+enum MovementType {
+  IN
+  OUT
+}
+
+enum ChallanStatus {
+  DRAFT
+  CONFIRMED
+  CANCELLED
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  stockMovements StockMovement[]
+  salesChallans  SalesChallan[]
+}
+
+model Customer {
+  id           Int      @id @default(autoincrement())
+  name         String
+  mobile       String
+  email        String?
+  businessName String?
+  gst          String?
+  customerType CustomerType
+  address      String?
+  status       Status   @default(LEAD)
+  followUpDate DateTime?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  salesChallans SalesChallan[]
+}
+
+model Product {
+  id           Int      @id @default(autoincrement())
+  name         String
+  sku          String   @unique
+  category     String?
+  unitPrice    Float
+  currentStock Int      @default(0)
+  minStock     Int      @default(0)
+  location     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  stockMovements   StockMovement[]
+  salesChallanItem SalesChallanItem[]
+}
+
+model StockMovement {
+  id        Int      @id @default(autoincrement())
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+  quantity  Int
+  type      MovementType
+  reason    String?
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  timestamp DateTime @default(now())
+}
+
+model SalesChallan {
+  id            Int      @id @default(autoincrement())
+  challanNumber String   @unique
+  customer      Customer @relation(fields: [customerId], references: [id])
+  customerId    Int
+  totalQuantity Int      @default(0)
+  status        ChallanStatus @default(DRAFT)
+  createdBy     User     @relation(fields: [createdById], references: [id])
+  createdById   Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  items SalesChallanItem[]
+}
+
+model SalesChallanItem {
+  id              Int      @id @default(autoincrement())
+  challan         SalesChallan @relation(fields: [challanId], references: [id])
+  challanId       Int
+  product         Product  @relation(fields: [productId], references: [id])
+  productId       Int
+  quantity        Int
+  unitPrice       Float
+  snapshotData    Json?    // Storing product snapshot
+}

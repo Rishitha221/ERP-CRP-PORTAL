@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "ERP CRM Portal API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Setup Admin",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type","value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Admin\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {"raw": "http://localhost:5000/api/auth/setup","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","auth","setup"]}
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type","value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {"raw": "http://localhost:5000/api/auth/login","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","auth","login"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Get Customers",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization","value": "Bearer {{token}}"}],
+            "url": {"raw": "http://localhost:5000/api/customers","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","customers"]}
+          }
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization","value": "Bearer {{token}}"},{"key": "Content-Type","value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"mobile\": \"1234567890\",\n  \"customerType\": \"RETAIL\"\n}"
+            },
+            "url": {"raw": "http://localhost:5000/api/customers","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","customers"]}
+          }
+        }
+      ]
+    }
+  ]
+}
