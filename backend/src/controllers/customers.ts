@@ -38,7 +38,7 @@ export const getCustomers = async (req: Request, res: Response): Promise<void> =
 export const getCustomerById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const customer = await prisma.customer.findUnique({ where: { id: parseInt(id) } });
+    const customer = await prisma.customer.findUnique({ where: { id: parseInt(id as string) } });
     
     if (!customer) {
       res.status(404).json({ message: 'Customer not found' });
@@ -72,7 +72,7 @@ export const updateCustomer = async (req: Request, res: Response): Promise<void>
     const data = req.body;
     
     const customer = await prisma.customer.update({
-      where: { id: parseInt(id) },
+      where: { id: parseInt(id as string) },
       data
     });
     
@@ -85,7 +85,7 @@ export const updateCustomer = async (req: Request, res: Response): Promise<void>
 export const deleteCustomer = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    await prisma.customer.delete({ where: { id: parseInt(id) } });
+    await prisma.customer.delete({ where: { id: parseInt(id as string) } });
     res.json({ message: 'Customer deleted successfully' });
   } catch (error: any) {
     res.status(500).json({ message: 'Server error', error: error.message });

@@ -38,7 +38,7 @@ export const getChallanById = async (req: Request, res: Response): Promise<void>
   try {
     const { id } = req.params;
     const challan = await prisma.salesChallan.findUnique({
-      where: { id: parseInt(id) },
+      where: { id: parseInt(id as string) },
       include: {
         customer: true,
         createdBy: { select: { id: true, name: true } },
@@ -147,7 +147,7 @@ export const confirmChallan = async (req: AuthRequest, res: Response): Promise<v
     const { id } = req.params;
     
     const challan = await prisma.salesChallan.findUnique({
-      where: { id: parseInt(id) },
+      where: { id: parseInt(id as string) },
       include: { items: true }
     });
 

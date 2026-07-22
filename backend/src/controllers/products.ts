@@ -37,7 +37,7 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
 export const getProductById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const product = await prisma.product.findUnique({ where: { id: parseInt(id) } });
+    const product = await prisma.product.findUnique({ where: { id: parseInt(id as string) } });
     
     if (!product) {
       res.status(404).json({ message: 'Product not found' });
@@ -71,7 +71,7 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
     const data = req.body;
     
     const product = await prisma.product.update({
-      where: { id: parseInt(id) },
+      where: { id: parseInt(id as string) },
       data
     });
     
@@ -84,7 +84,7 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
 export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    await prisma.product.delete({ where: { id: parseInt(id) } });
+    await prisma.product.delete({ where: { id: parseInt(id as string) } });
     res.json({ message: 'Product deleted successfully' });
   } catch (error: any) {
     res.status(500).json({ message: 'Server error', error: error.message });
